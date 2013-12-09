@@ -1,8 +1,11 @@
 package com.domandtom.bitcoinchart;
 
+import java.util.Date;
+
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 
@@ -34,10 +37,16 @@ public class MainActivity extends Activity {
 		
 		@Override
 		protected void onPostExecute(SpotRate result) {
+			long timeStamp = System.currentTimeMillis();
+			Date date = new Date(timeStamp);
+			String displayDate = DateFormat.format("MM/dd/yyyy hh:mm", date).toString();
+
 			/* Create output */
 			Card card = new Card(context);
 			String cardText = "*** Bitcoin Price ***\n" + spotRate.getAmount() + "\n" + spotRate.getCurrency();
 			card.setText(cardText);
+			card.setInfo("Built by Dom & Tom");
+			card.setTimestamp(displayDate);
 			View cardView = card.toView();
 			setContentView(cardView);
 			
